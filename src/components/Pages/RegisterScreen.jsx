@@ -7,6 +7,7 @@ import FormContainer from '../../components/FormContainer';
 import '../../css/theme.css';
 import { setCredentials } from '../../slices/authSlice';
 import { useRegisterMutation } from '../../slices/usersApiSlice';
+import Loader from '../Loader';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');

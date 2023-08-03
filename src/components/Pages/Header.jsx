@@ -7,8 +7,7 @@ import { logout } from '../../slices/authSlice';
 import { useLogoutMutation } from '../../slices/usersApiSlice';
 
 const Header = () => {
-
-const userInfo =  useSelector((state) => state.auth)
+const userInfo =  useSelector((state) => state.auth.userInfo)
 const dispatch = useDispatch();
 const navigate = useNavigate();
 
@@ -34,7 +33,9 @@ const logoutHandler = async () => {
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
               <Nav className='ms-auto'>
-              {userInfo ? (
+              {
+                
+              userInfo ? (
                 <>
                   <NavDropdown title={userInfo.name} id='username'>
                     <LinkContainer to='/profile'>
