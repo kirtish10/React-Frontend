@@ -42,12 +42,12 @@ function LoginScreen() {
   
     return (
       <FormContainer>
-        <h1>Sign In</h1>
-  
+        <h1>LOGIN</h1>
         <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='email'>
-          <Form.Label>Email Address</Form.Label>
+        <Form.Group className='my-3' controlId='email'>
+          <Form.Label className='my-3'>Email Address</Form.Label>
           <Form.Control
+            className='input  my-2'
             type='email'
             placeholder='Enter email'
             value={email}
@@ -55,9 +55,10 @@ function LoginScreen() {
           ></Form.Control>
         </Form.Group>
   
-        <Form.Group className='my-2' controlId='password'>
-          <Form.Label>Password</Form.Label>
+        <Form.Group className='my-3' controlId='password'>
+          <Form.Label className='my-3'>Password</Form.Label>
           <Form.Control
+          className='input rounded-0 my-2'
             type='password'
             placeholder='Enter password'
             value={password}
@@ -65,18 +66,37 @@ function LoginScreen() {
           ></Form.Control>
         </Form.Group>
 
-          <Button  disabled={isLoading}
-          type='submit' variant='warning' className='mt-3'>
-            Sign In
+        <div className='mt-5'><Form.Check
+            type='checkbox'
+            id={`default-checkbox`}
+            label='Remember me'
+          /></div>
+
+          <Button className= 'py-3 mt-5 w-100'  disabled={isLoading}
+          type='submit'>
+            LOGIN
           </Button>
         </Form>
 
 
        {isLoading && <Loader />}
+
+       
+       <Row className='mx-auto py-5'>
+        <Col>
+          <Link to={`/login`}>Forgotten password?</Link>
+        </Col>
+      </Row>
+
+      <Row className='h3 color-primary mx-auto'>
+        <Col>
+        Don’t have an account yet?
+        </Col>
+      </Row>
   
-        <Row className='py-3'>
+        <Row className='mx-auto my-3'>
           <Col>
-            New Customer? <Link to={`/register`}>Register</Link>
+            <Link to={`/register`}>Register</Link>
           </Col>
         </Row>
       </FormContainer>

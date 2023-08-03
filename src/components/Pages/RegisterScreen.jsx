@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../../css/theme.css';
 import FormContainer from '../FormContainer';
 
 const RegisterScreen = () => {
@@ -17,9 +18,10 @@ const RegisterScreen = () => {
     <FormContainer>
       <h1>Register</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='name'>
-          <Form.Label>Name</Form.Label>
+        <Form.Group className='my-3' controlId='name'>
+          <Form.Label className='my-3'>Name</Form.Label>
           <Form.Control
+           className='input  my-2'
             type='name'
             placeholder='Enter name'
             value={name}
@@ -27,9 +29,10 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group className='my-2' controlId='email'>
-          <Form.Label>Email Address</Form.Label>
+        <Form.Group className='my-3' controlId='email'>
+          <Form.Label className='my-3'>Your Email</Form.Label>
           <Form.Control
+           className='input  my-2'
             type='email'
             placeholder='Enter email'
             value={email}
@@ -37,18 +40,20 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group className='my-2' controlId='password'>
-          <Form.Label>Password</Form.Label>
+        <Form.Group className='my-3' controlId='password'>
+          <Form.Label className='my-3'>Password</Form.Label>
           <Form.Control
+           className='input  my-2'
             type='password'
             placeholder='Enter password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group className='my-2' controlId='confirmPassword'>
-          <Form.Label>Confirm Password</Form.Label>
+        <Form.Group className='my-3' controlId='confirmPassword'>
+          <Form.Label className='my-3'>Confirm Password</Form.Label>
           <Form.Control
+           className='input  my-2'
             type='password'
             placeholder='Confirm password'
             value={confirmPassword}
@@ -56,14 +61,14 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='warning' className='mt-3'>
+        <Button type='submit' variant='outline-primary' className='w-100 mt-3 py-3'>
           Register
         </Button>
       </Form>
 
-      <Row className='py-3'>
+      <Row className='mx-auto py-5'>
         <Col>
-          Already have an account? <Link to={`/login`}>Login</Link>
+        <Link to={`/login`}>or log in to your account</Link>
         </Col>
       </Row>
     </FormContainer>

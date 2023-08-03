@@ -5,9 +5,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const Header = () => {
     return (
-      <header>
-        <Navbar bg='dark' variant='dark' expand='md' collapseOnSelect>
-          <Container>
+      <header className='shadow-sm'>
+        <Navbar bg='transparent' expand='md' collapseOnSelect>
+          <Container >
             <LinkContainer to='/'>
               <Navbar.Brand>Online Store</Navbar.Brand>
             </LinkContainer>
@@ -16,13 +16,14 @@ const Header = () => {
               <Nav className='ms-auto'>
                 <LinkContainer to='/login'>
                  <Nav.Link>
-                 <Button className='mx-3 my-3' variant='warning'> <FaSignInAlt /> Sign In</Button>
+                 <Button variant='primary'> <FaSignInAlt /> Sign In</Button>
                    
                   </Nav.Link> 
                 </LinkContainer>
                 <LinkContainer to='/register'>
                 <Nav.Link>
-                  <Button className='mx-3 my-3' variant='secondary'>
+
+                  <Button variant='outline-primary'>
                     <FaSignOutAlt /> Sign Up</Button>
                   </Nav.Link>
                 </LinkContainer>
