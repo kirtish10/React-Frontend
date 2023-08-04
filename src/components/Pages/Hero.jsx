@@ -8,8 +8,8 @@ const Hero = () => {
     
   return (
     <div className=' py-5'>
-      <Container className='d-flex justify-content-center'>
-        <Card className='p-5 d-flex flex-column align-items-center hero-card bg-light w-75'>
+      <Container className='d-flex justify-content-center w-100'>
+        <Card className='border-0 shadow-sm p-5 d-flex flex-column align-items-center hero-card bg-light w-75'>
           <h1 className='text-center mb-4'>MERN Authentication</h1>
           <p className='text-center mb-4'>
             This is a boilerplate for MERN authentication that stores a JWT in
