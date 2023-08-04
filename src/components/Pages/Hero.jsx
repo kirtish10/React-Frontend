@@ -1,6 +1,11 @@
 import { Button, Card, Container } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  
+    
   return (
     <div className=' py-5'>
       <Container className='d-flex justify-content-center'>

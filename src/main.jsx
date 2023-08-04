@@ -12,6 +12,7 @@ import {
 import HomeScreen from "./components/Pages/HomeScreen.jsx";
 import LoginScreen from "./components/Pages/LoginScreen.jsx";
 import RegisterScreen from "./components/Pages/RegisterScreen.jsx";
+import VerifyScreen from "./components/Pages/VerifyScreen.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store.js";
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />{" "}
+      <Route path="/verify" element={<VerifyScreen />} />
     </Route>
   )
 );
