@@ -3,10 +3,9 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { setUserId, logout, setEmailId } from '../../slices/authSlice';
-import { useLoginMutation } from '../../slices/usersApiSlice';
+import { setUserId, setEmailId } from '../../slices/authSlice';
+import { login } from '../../slices/usersApiSlice'; // Import the axios API functions
 import Loader from '../Loader';
-
 import FormContainer from '../FormContainer';
 
 function LoginScreen() {
@@ -15,25 +14,24 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false)
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
 
-    if (userInfo) {
-      navigate('/');
+    if (token) {
+      navigate('/home');
     }
-  }, [navigate, userInfo]);
+  }, [navigate, token]);
 
   const submitHandler = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
-      const res = await login({ email }).unwrap()
+      const res = await login({ email })
         .then((res) => {
-          console.log(res.payload.id)
-          if (res.status.code === 200) {
-            dispatch(setUserId({ ...res.payload }));
+          if (res.status === 200) {
+            dispatch(setUserId({ ...res.data.payload }));
             dispatch(setEmailId({ ...{ email } }))
             navigate('/verify');
           }
@@ -42,9 +40,9 @@ function LoginScreen() {
             console.log(res)
           }
         });
-      // dispatch(setUserId({ ...res }));
 
     } catch (err) {
+      console.log(err)
       console.log(err?.data?.message || err.error);
       toast.error(err?.data?.message || err.error);
 

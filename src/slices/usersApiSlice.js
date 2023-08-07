@@ -1,54 +1,47 @@
-import { apiSlice } from './apiSlice';
-const USERS_URL = '/api/users';
-
-export const userApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-
-    login: builder.mutation({
-      query: (data) => ({
-        url: `http://localhost:5000/api/auth/login`,
-        method: 'POST',
-        body: data,
-      }),
-    }),
-
-    // logout: builder.mutation({
-    //     query: () => ({
-    //       url: `${USERS_URL}/logout`,
-    //       method: 'POST',
-    //     }),
-    //   }),
-
-    register: builder.mutation({
-      query: (data) => ({
-        url: `http://localhost:5000/api/auth/signup`,
-        method: 'POST',
-        body: data,
-      }),
-    }),
-
-    verify: builder.mutation({
-      query: (data) => ({
-        url: `http://localhost:5000/api/auth/verifycode`,
-        method: 'POST',
-        body: data,
-      }),
-    }),
+import axios from 'axios';
 
 
+const USERS_URL = import.meta.env.VITE_API_URL + '/api/auth';
 
-    updateUser: builder.mutation({
-      query: (data) => ({
-        url: `${USERS_URL}/profile`,
-        method: 'PUT',
-        body: data,
-      }),
-    }),
+export const login = (data) => axios.post(`${USERS_URL}/login`, data);
+
+export const register = (data) => axios.post(`${USERS_URL}/signup`, data);
+
+export const verify = (data) => axios.post(`${USERS_URL}/verifycode`, data);
+
+// export const getUserData = (token) => axios.post(`${USERS_URL}/getuser`, {}, {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// });
+
+export const updateUser = (data) => axios.put(`${USERS_URL}/profile`, data);
+
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL
+})
+axiosInstance.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  const originalRequest = error.config
+  if (error.response.status === 403 && !originalRequest._retry) {
+    const rToken = localStorage.getItem('refreshToken')
+    originalRequest._retry = true
+    const { data } = await axiosInstance.get(`${USERS_URL}/refresh`, {
+      headers: {
+        Authorization: `Bearer ${rToken}`,
+      },
+    })
+
+    localStorage.setItem('authToken', data.payload['authToken'])
+    originalRequest.headers.Authorization = `Bearer ${data.payload['authToken']}`
+
+    return axiosInstance(originalRequest)
+  }
+
+  return Promise.reject(error)
+})
 
 
-  }),
-});
+export const getUserData = (token) =>  axiosInstance.post(`${USERS_URL}/getuser`, {}, { headers: { Authorization: `Bearer ${token}` } })
 
-
-
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useVerifyMutation, useUpdateUserMutation } = userApiSlice;

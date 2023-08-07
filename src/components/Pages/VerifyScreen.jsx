@@ -6,17 +6,18 @@ import { toast } from 'react-toastify';
 import FormContainer from '../FormContainer';
 import '../../css/theme.css';
 import { setCredentials } from '../../slices/authSlice';
-import { useVerifyMutation, useLoginMutation } from '../../slices/usersApiSlice';
+import { verify, login } from '../../slices/usersApiSlice';
 import Loader from '../Loader';
 
 const VerifyScreen = () => {
   const [otp, setOtp] = useState('');
   const [timer, setTimer] = useState(20);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [login] = useLoginMutation();
+  // const [login] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [verify, { isLoading }] = useVerifyMutation();
+  const isLoading = false
+  // const [verify, { isLoading }] = useVerifyMutation();
 
   // {auth &&  <Hero />}
 
@@ -54,9 +55,8 @@ const VerifyScreen = () => {
 
   const handleButtonClick = async () => {
     setIsButtonDisabled(true);
-    const res = await login({ email: emailId }).unwrap()
+    const res = await login({ email: emailId })
       .then((res) => {
-        console.log(res)
         if (res.status.code === 200) {
           console.log("OTP Resent")
         }
@@ -70,11 +70,10 @@ const VerifyScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await verify({ userId, otp }).unwrap();
-      console.log(res.payload)
-      if (res.status.code === 200) {
-        dispatch(setCredentials({ ...res.payload }));
-        navigate('/');
+      const res = await verify({ userId, otp })
+      if (res.status === 200) {
+        dispatch(setCredentials({ ...res.data.payload }));
+        navigate('/home');
       }
       else {
         console.log("Error Handling")
@@ -83,7 +82,6 @@ const VerifyScreen = () => {
     } catch (err) {
       console.log(err?.data?.message || err.error);
       toast.error(err?.data?.message || err.error);
-
     }
   };
 

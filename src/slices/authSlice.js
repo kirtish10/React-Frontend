@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  userInfo: localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
+  token: localStorage.getItem('authToken')
+    ? localStorage.getItem('authToken')
     : null,
 };
 
@@ -12,26 +12,28 @@ const authSlice = createSlice({
   reducers: {
     setEmailId: (state, action) => {
       state.emailId = action.payload.email;
-      console.log(state.emailId)
     },
     setUserId: (state, action) => {
       state.userId = action.payload.id;
-      console.log(state.userId)
     },
     setCredentials: (state, action) => {
-      state.userInfo = action.payload;
-      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      state.token = action.payload['authToken']
+      // console.log(action.payload['refreshToken'])
+      state.refreshToken = action.payload['refreshToken']
+      localStorage.setItem('authToken', action.payload['authToken']);
+      localStorage.setItem('refreshToken', action.payload['refreshToken']);
     },
     logout: (state, action) => {
-      state.userInfo = null;
-      localStorage.removeItem('userInfo');
+      state.token = null;
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('refreshToken')
     },
-    setCode: (state, action) => {
-      state.code = action.payload;
+    setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
     }
   },
 });
 
-export const { setCredentials, logout, setUserId, setEmailId } = authSlice.actions;
+export const { setCredentials, logout, setUserId, setEmailId, setUserInfo } = authSlice.actions;
 
 export default authSlice.reducer;

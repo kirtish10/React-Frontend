@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import FormContainer from '../../components/FormContainer';
 import '../../css/theme.css';
 import { setUserId, logout } from '../../slices/authSlice';
-import { useRegisterMutation } from '../../slices/usersApiSlice';
+import { register } from '../../slices/usersApiSlice';
 import Loader from '../Loader';
 
 const RegisterScreen = () => {
@@ -15,31 +15,31 @@ const RegisterScreen = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = false
+  // const [register, { isLoading }] = useRegisterMutation();
 
-  const [register, { isLoading }] = useRegisterMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   useEffect(() => {
-    if (userInfo) {
-      navigate('/');
+    if (token) {
+      navigate('/home');
     }
-  }, [navigate, userInfo]);
+  }, [navigate, token]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await register({ name, email }).unwrap()
+      const res = await register({ name, email })
         .then((res) => {
-          console.log(res.payload)
-          if (res.status.code === 200){
-          dispatch(setUserId({ ...res.payload }));
-          navigate('/verify');
-        }
-          if (res.status=== 409){
+          console.log(res.data)
+          if (res.data.status.code === 200) {
+            dispatch(setUserId({ ...res.data.payload }));
+            navigate('/verify');
+          }
+          if (res.data.status === 409) {
             console.log("Display user already Exists, please Sign in")
           }
-          else{
-            console.log(res.payload)
+          else {
+            console.log(res.data.payload)
           }
         });
 

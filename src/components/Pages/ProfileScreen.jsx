@@ -4,43 +4,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import FormContainer from '../../components/FormContainer';
 import { setCredentials } from '../../slices/authSlice';
-import { useUpdateUserMutation } from '../../slices/usersApiSlice';
+import { updateUser } from '../../slices/usersApiSlice';
 
 const ProfileScreen = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { userInfo } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const [updateProfile, { isLoading }] = useUpdateUserMutation();
-
-  useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+  // useEffect(() => {
+  //   setName(userInfo.name);
+  //   setEmail(userInfo.email);
+  // }, [userInfo.email, userInfo.name]);
 
 
- const submitHandler = async (e) => {
-  e.preventDefault();
-  if (password !== confirmPassword) {
-    toast.error('Passwords do not match');
-  } else {
-    try {
-      const res = await updateProfile({
-        _id: userInfo._id,
-        name,
-        email,
-        password,
-      }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      toast.success('Profile updated successfully');
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+    } else {
+      try {
+        // const res = await updateProfile({
+        //   _id: userInfo._id,
+        //   name,
+        //   email,
+        //   password,
+        // }).unwrap();
+        // dispatch(setCredentials({ ...res }));
+        toast.success('Profile updated successfully');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
     }
-  }
-};
+  };
 
   return (
     <FormContainer>
